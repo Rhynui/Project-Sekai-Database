@@ -7,8 +7,8 @@ REPORT = 4
 EXIT = 999
 
 COLUMN = 10  # define the number of columns in the data
-SEPERATOR = " | "  # define the character that seperates each column of the table
-SPACE = len(SEPERATOR)  # define the length fo space between each column of the table
+SEPARATOR = " | "  # define the character that separates each column of the table
+SPACE = len(SEPARATOR)  # define the length fo space between each column of the table
 
 DATA_TYPES = ("int", "str", "int", "int", "int", "int", "int", "int", "percentage", "int")  # define the value type for each column, useful for determine the data type for each value when reading from csv file
 STRING_FORMAT = ("%i", "%s", "%i", "%i", "%i", "%i", "%i", "%i", "%.2f%%", "%i")  # define the print format for each column, useful for finding the width each value will take up
@@ -21,7 +21,7 @@ max_lens = list()  # the length of the longest value in each column of the table
 next_id = int()  # the next entry number used when adding a new entry
 break_line_len = int()  # the length of the horizontal break line; changed based on the width of the table
 
-# genereal-use functions
+# general-use functions
 def line_break(char: str):
     """Print a horizontal line with char"""
     print(char*break_line_len)
@@ -41,12 +41,12 @@ def save_csv():
     f.close()
 
 def striped_input(prompt: str):
-    """Same as input() function except it strips the leading and trailling spaces from the input."""
-    return input(prompt).strip().rstrip()
+    """Same as input() function except it strips the leading and trailing spaces from the input."""
+    return input(prompt).strip()
 
 def get_command(instr: str):
     """Get the command in lowercase from the input excluding '/'."""
-    return instr[1:].strip().lower()
+    return instr[1:].strip()
 
 def display_help():
     """Display the help message."""
@@ -80,7 +80,7 @@ def sum_list(nums: list):
     return sum
 
 def init():
-    """All intitialization done at the start of the program such as reading from the file, the width of each columns of the table, the next entry number, the length of the horizontal line in line_break(), and the accurary and the number of combo break of each entry."""
+    """All initialization done at the start of the program such as reading from the file, the width of each columns of the table, the next entry number, the length of the horizontal line in line_break(), and the accuracy and the number of combo break of each entry."""
     global head, body, max_lens, next_id, break_line_len
     head, body = read_csv()
     # convert values from string to int or float if needed
@@ -128,7 +128,7 @@ def head_str(head: list, max_lens: list):
     """Convert the header from list to a string for printing."""
     output = str()
     for i in range(COLUMN):
-        output += "%%-%is"%max_lens[i]%head[i] + SEPERATOR
+        output += "%%-%is"%max_lens[i]%head[i] + SEPARATOR
     return output.rstrip()
 
 def body_str(body: list, max_lens: list):
@@ -140,13 +140,13 @@ def body_str(body: list, max_lens: list):
         for j in range(COLUMN):
             if DATA_TYPES[j] == "percentage":
                 # data with '%' sign have 1 less minimum field width as the '%' sign occupies one space and it is not a part of the number
-                output += STRING_FORMAT_WITH_MIN_WIDTH[j]%(max_lens[j]-1)%body[i][j] + SEPERATOR
+                output += STRING_FORMAT_WITH_MIN_WIDTH[j]%(max_lens[j]-1)%body[i][j] + SEPARATOR
             else:
-                output += STRING_FORMAT_WITH_MIN_WIDTH[j]%max_lens[j]%body[i][j] + SEPERATOR
+                output += STRING_FORMAT_WITH_MIN_WIDTH[j]%max_lens[j]%body[i][j] + SEPARATOR
         output = output.rstrip() + '\n'
     return output.rstrip()
 
-# functinos for display
+# functions for display
 def display_table(head: list, body: list, max_lens: list):
     """Display the data in a table."""
     print(head_str(head, max_lens))
@@ -168,7 +168,7 @@ def display_score(row: list):
     for i in range(5):
         if len(STRING_FORMAT[i+3]%row[i+3]) > max_len:
             max_len = len(STRING_FORMAT[i+3]%row[i+3])
-    
+
     # display the data
     line_break('-')
     print("Score:")
@@ -178,10 +178,10 @@ def display_score(row: list):
     print(("Bad      "+STRING_FORMAT_WITH_MIN_WIDTH[6]) % max_len % row[6])
     print(("Miss     "+STRING_FORMAT_WITH_MIN_WIDTH[7]) % max_len % row[7])
     print(("Accuracy: "+STRING_FORMAT[8]) % row[8])
-    print(("Bombo Break: "+STRING_FORMAT[9]) % row[9])
+    print(("Combo Break: "+STRING_FORMAT[9]) % row[9])
 
 def difficulty_filter(diff: int):
-    """Display a table only with entries that have diffculties greater or equal to diff."""
+    """Display a table only with entries that have difficulties greater or equal to diff."""
     global break_line_len
     # find all entries that satisfy the criteria
     filtered_body = list()
@@ -189,7 +189,7 @@ def difficulty_filter(diff: int):
         if int(body[i][2]) >= diff:
             filtered_body.append(body[i])
 
-    # find the maximum width of each column of the filtered table and the length of the break line; these will be different and probably smaller than the orginal table
+    # find the maximum width of each column of the filtered table and the length of the break line; these will be different and probably smaller than the original table
     filtered_max_lens = list()
     for i in range(COLUMN):
         break_line_len -= max_lens[i]
@@ -219,7 +219,7 @@ def accuracy_filter(acc: float):
         if body[i][8] >= acc:
             filtered_body.append(body[i])
 
-    # find the maximum width of each column of the filtered table and the length of the break line; these will be different and probably smaller than the orginal table
+    # find the maximum width of each column of the filtered table and the length of the break line; these will be different and probably smaller than the original table
     filtered_max_lens = list()
     for i in range(COLUMN):
         break_line_len -= max_lens[i]
@@ -278,9 +278,9 @@ def menu():
         print("1 -- Add a new entry.")
         # check if there are existing entries
         if len(body) > 0:
-            # these opearations would only makes sense to do if there are entries to work
+            # these operations would only makes sense to do if there are entries to work
             print("2 -- Modify an existing entry.")
-            print("3 -- Remove an exsiting entry.")
+            print("3 -- Remove an existing entry.")
             print("4 -- Generate a report based on filters.")
         print("0 -- Exit")
         print()
@@ -439,14 +439,14 @@ def add():
         if sum_list(score) == 0:
             print("Error: the sum of all judgments can not be 0.")
             continue
-        # conbine all information of the new entry into one list, in the same format as if it was stored in body
-        # accuray = perfect / sum of all judgments
+        # combine all information of the new entry into one list, in the same format as if it was stored in body
+        # accuracy = perfect / sum of all judgments
         # combo break = good + bad + miss
         data = [next_id, name, diff] + score + [score[0]/sum_list(score)*100, sum_list(score[2:])]
         display_metadata(data)
         display_score(data)
 
-        # update max_lens with the lengths from the new entry if nessasary
+        # update max_lens with the lengths from the new entry if necessary
         for i in range(COLUMN):
             if len(STRING_FORMAT[i]%data[i]) > max_lens[i]:
                 break_line_len -= max_lens[i]
@@ -580,7 +580,7 @@ def modify():
                     else:
                         get_max = False
                     body[index][1] = name
-                    break_line_len -= max_lens[1]  # remove the previous lognest length from the length of the break line (sum of the longest length from all columns) as the longest length can change by the code below
+                    break_line_len -= max_lens[1]  # remove the previous longest length from the length of the break line (sum of the longest length from all columns) as the longest length can change by the code below
                     # check if the new song name is even longer the previous longest
                     if len(STRING_FORMAT[1]%body[index][1]) > max_lens[1]:
                         # if so, only need to update max_lens to the new length
@@ -622,7 +622,7 @@ def modify():
                         print("Error: '%s' is not a whole number." % diff)
                         continue
                     # check if the program needs to update max_lens with this modification; if the lengths of the unmodified data from this entry is the longest of all, and the new data is shorter than the old ones, values from max_lens could change to smaller values and thus need to be updated
-                    # only the difficuly is changed here so only check the length of the difficulty
+                    # only the difficulty is changed here so only check the length of the difficulty
                     if len(STRING_FORMAT[2]%body[index][2]) == max_lens[2]:
                         get_max = True
                     else:
@@ -630,7 +630,7 @@ def modify():
 
                     body[index][2] = int(diff)
 
-                    break_line_len -= max_lens[2]  # remove the previous lognest length from the length of the break line (sum of the longest length from all columns) as the longest length can change by the code below
+                    break_line_len -= max_lens[2]  # remove the previous longest length from the length of the break line (sum of the longest length from all columns) as the longest length can change by the code below
                     # check if the new song name is even longer the previous longest
                     if len(str(body[index][2])) > max_lens[2]:
                         # if so, only need to update max_lens to the new length
@@ -704,9 +704,9 @@ def modify():
                     body[index][8] = score[0] / sum_list(score) * 100
                     body[index][9] = sum_list(score[2:])
 
-                    # upadate max_lens if nessasary
+                    # update max_lens if necessary
                     for i in range(7):
-                        break_line_len -= max_lens[i+3]  # remove the previous lognest length from the length of the break line (sum of the longest length from all columns) as the longest length can change by the code below
+                        break_line_len -= max_lens[i+3]  # remove the previous longest length from the length of the break line (sum of the longest length from all columns) as the longest length can change by the code below
                         # check if the new song name is even longer the previous longest
                         if len(STRING_FORMAT[i+3]%body[index][i+3]) > max_lens[i+3]:
                             # if so, only need to update max_lens to the new length
@@ -798,10 +798,10 @@ def delete():
                     else:
                         get_max.append(False)
                 del body[index]
-                # update max_lens if nessassary
+                # update max_lens if necessary
                 for i in range(COLUMN):
                     if get_max[i]:
-                        break_line_len -= max_lens[i]  # remove the previous lognest length from the length of the break line (sum of the longest length from all columns) as the longest length can change by the code below
+                        break_line_len -= max_lens[i]  # remove the previous longest length from the length of the break line (sum of the longest length from all columns) as the longest length can change by the code below
                         max_lens[i] = 0
                         for j in range(len(body)):
                             if len(STRING_FORMAT[i]%body[j][i]) > max_lens[i]:
@@ -967,7 +967,7 @@ def report():
             print("Error: '%i' does not associate with any filters." % argument)
         break
     line_break("=")
-    # ask the user if they want to generatate another report, mainly used to pause the program and let the user see the report
+    # ask the user if they want to generate another report, mainly used to pause the program and let the user see the report
     while True:
         print()
         response = striped_input("Do you want to generate another report? (y/n): ")

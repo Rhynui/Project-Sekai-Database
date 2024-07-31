@@ -3,19 +3,19 @@ Check the text version as well as I spent a lot of time doing it.
 
 Title: Project SEKAI Scores
 
-Descrption: This database record the scores I acheived in a rhythm game called Project SEKAI.
+Description: This database record the scores I achieved in a rhythm game called Project SEKAI.
 
 Fields:
 
     Entry: The unique id of each entry, every new entry added will have a entry id of 1 larger than the largest entry id found in the database at a given moment.
 
-    Song Name: The name of song I played. Since the game is a rhythm game, I need to choose a song in the game everytime I play.
+    Song Name: The name of song I played. Since the game is a rhythm game, I need to choose a song in the game every time I play.
 
     Difficulty: The difficulty of the chart I played. Every song has 5 different charts I can choose from to play, and every song have charts with different difficulties, ranging from 5-36. In the database the difficulty only ranges from 25-34.
 
-    Perfect, Great, Good, Bad, Miss: These 5 fields are the judgments I acheived from the play. Everytime I hit a note when playing, the game will assign me a judgment of how accurate I hit the note based on the timing. A Perfect judgment means I hit the note perfectly, and each judgments down means less accurate hits, with miss meaning I missed the note completely. At the end of each song, the game will give a report of how many each judgment I obtain on the last play, and that is the number I add to the database.
+    Perfect, Great, Good, Bad, Miss: These 5 fields are the judgments I achieved from the play. Every time I hit a note when playing, the game will assign me a judgment of how accurate I hit the note based on the timing. A Perfect judgment means I hit the note perfectly, and each judgments down means less accurate hits, with miss meaning I missed the note completely. At the end of each song, the game will give a report of how many each judgment I obtain on the last play, and that is the number I add to the database.
 
-    Accuracy: Related to judgments, the accuracy is a mesurement of how accurate the hits are in percentage. The formula is Perfect / Sum of all judgments in . This field will be automatically calculated by the program. Most entries in the database has an accuracy of 95%+ with some being at 80%-95% and no entries has an accuracy below 80%.
+    Accuracy: Related to judgments, the accuracy is a measurement of how accurate the hits are in percentage. The formula is Perfect / Sum of all judgments in . This field will be automatically calculated by the program. Most entries in the database has an accuracy of 95%+ with some being at 80%-95% and no entries has an accuracy below 80%.
 
     Combo Break: Combo is another metric in rhythm game that counts how many notes in a row a player hits accurately. In this game, Perfect and Great are considered accurate, meaning Good, Bad, and Miss will reset the combo, or "break" it. Combo Break records the number of judgments that "breaks" the combo, so the formula of calculating Combo Break is Good + Bad + Miss. This field will be automatically calculated by the program. Most entries in the database has less than 10 combo breaks, and the maximum is 91 combo breaks.
 
@@ -41,7 +41,7 @@ input_box = False  # define if there is any type of text input enabled
 shift_pressed = [False, False]  # define if the user pressed the left and right shift
 shift = False  # define if the user pressed the shift
 input_text = None  # stores the text in the text box when a input box is enabled; stores None when no input box is enabled
-input_column = int()  # stores the coloumn index of the cell the user is modifying; stores negative values when the user is modifying filter arguments
+input_column = int()  # stores the column index of the cell the user is modifying; stores negative values when the user is modifying filter arguments
 
 NUM_SHIFT = (')', '!', '@', '#', '$', '%', '^', '&', '*', '(')  # stores the characters the user is inputting when the user hit shift and a number key at the same time
 # stores less-used keys on the keyboard
@@ -121,7 +121,7 @@ diff_valid = False
 acc_valid = False
 cb_valid = False
 
-# genereal-use functions
+# general-use functions
 def save_csv():
     """Save data to data.csv."""
     f = open("data.csv", 'w')
@@ -163,7 +163,7 @@ def read_csv():
     return head, body
 
 def init():
-    """All intitialization done at the start of the program such as reading from the file, the width of each columns of the table, the next entry number"""
+    """All initialization done at the start of the program such as reading from the file, the width of each columns of the table, the next entry number"""
     global column_width, column_start_x, head, body_csv, body_display, valid, next_id, table_bottom_y
 
     column_width[1] = TABLE_END_X - TABLE_START_X - sum_list(column_width)  # calculate the width of the second column
@@ -324,7 +324,7 @@ def update():
                     if input_column >= 5:
                         body_display[index][9] = "N/A"
                         valid[index][9] = False
-                    
+
             elif input_column == 2:
                 # here the user is input the difficulty
                 # check if the number is valid
@@ -396,7 +396,7 @@ def get_filtered_table():
     body_filtered = list()
     valid_filtered = list()
     if diff_enabled and diff_valid:
-        # add any entries taht match the filter
+        # add any entries that match the filter
         for i in range(len(body_display)):
             if not valid[i][2] or body_display[i][2] >= diff_filter:
                 body_filtered.append(body_display[i])
@@ -426,7 +426,7 @@ while True:
         # fill the background
         draw.rect(screen, BG, (0, 0)+SIZE)
 
-        # calculate the height of the scroll bar by a very complicated fomula
+        # calculate the height of the scroll bar by a very complicated formula
         scroll_bar_height = (TABLE_END_Y-TABLE_START_Y) * (TABLE_END_Y-TABLE_START_Y) // (table_bottom_y-table_top_y)
 
         for e in event.get():
@@ -598,7 +598,7 @@ while True:
                                 # shift the table
                                 diff = new_table_top_y - table_top_y
                                 table_top_y += diff
-                                table_bottom_y += diff                                
+                                table_bottom_y += diff
                                 scroll_bar_clicked = True
                                 scroll_bar_clicked_diff = y - scroll_bar_y
                         update()
@@ -688,7 +688,7 @@ while True:
     # end the loop if the user pressed exit
     if not running:
         break
-    
+
     # check if the table scroll beyond the allowed range, if yes, shift the table back
     if table_bottom_y < TABLE_END_Y:
         diff = TABLE_END_Y - table_bottom_y
@@ -718,7 +718,7 @@ while True:
             if text_width + PADDING*2 > 45:
                 input_text = input_text[:-1]
 
-    # display the titlle
+    # display the title
     text = TITLE.render("Project SEKAI Scores", True, TABLE_TEXT)
     text_width, text_height = text.get_size()
     screen.blit(text, (400-text_width//2, 20, text_width, text_height))
@@ -730,7 +730,7 @@ while True:
     text = OTHER.render("Filters:", True, TABLE_TEXT)
     text_width, text_height = text.get_size()
     screen.blit(text, (TABLE_START_X, 70+PADDING, text_width, text_height))
-    
+
     text = OTHER.render("Difficulty ≥", True, TABLE_TEXT)
     text_width, text_height = text.get_size()
     screen.blit(text, (120, 70+PADDING, text_width, text_height))
@@ -740,7 +740,7 @@ while True:
         draw.circle(screen, FILTER_ENABLED, (110, 85), 3)
     draw.rect(screen, BOX, (180, 75, 45, 20))
     if not diff_valid:
-        # outline the text box with a different color when the text insid is invalid
+        # outline the text box with a different color when the text inside is invalid
         draw.rect(screen, ERROR, (180, 75, 45, 20), 3)
     if input_box and input_column == -1:
         text = OTHER.render(input_text+CURSOR, True, INPUT_TEXT)
@@ -760,7 +760,7 @@ while True:
         draw.circle(screen, FILTER_ENABLED, (240, 85), 3)
     draw.rect(screen, BOX, (320, 75, 45, 20))
     if not acc_valid:
-        # outline the text box with a different color when the text insid is invalid
+        # outline the text box with a different color when the text inside is invalid
         draw.rect(screen, ERROR, (320, 75, 45, 20), 3)
     if input_box and input_column == -2:
         text = OTHER.render(input_text+CURSOR, True, INPUT_TEXT)
@@ -780,7 +780,7 @@ while True:
         draw.circle(screen, FILTER_ENABLED, (390, 85), 3)
     draw.rect(screen, BOX, (490, 75, 45, 20))
     if not cb_valid:
-        # outline the text box with a different color when the text insid is invalid
+        # outline the text box with a different color when the text inside is invalid
         draw.rect(screen, ERROR, (490, 75, 45, 20), 3)
     if input_box and input_column == -3:
         text = OTHER.render(input_text+CURSOR, True, INPUT_TEXT)
